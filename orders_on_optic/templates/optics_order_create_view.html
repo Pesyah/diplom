@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block content %}
+<script>
+  function sendOrder() {
+    var xhr = new XMLHttpRequest();
+    var body = 'phone=' + encodeURIComponent(document.getElementById('phone').value) + '&email=' + encodeURIComponent(document.getElementById('email').value) + '&optic_id=' + encodeURIComponent(document.getElementsByClassName('optic_id')['0'].id);
+    xhr.open("POST", 'createOrder');
+
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+    
+    xhr.send(body);
+    xhr.onload = function() {
+      if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
+        console.log(xhr)
+        alert(`Ошибка ${xhr.status}: ${xhr.statusText}`); // Например, 404: Not Found
+      } else {
+        alert(xhr.response); // response -- это ответ сервера
+        location.href = '/optics/' + document.getElementsByClassName('optic_id')['0'].id
+      }
+    };
+    return true
+  }
+</script>
+<div style="margin: 5vw; border-radius: 15px; background-color: #fffbed; padding: 2vw">
+  <h1 id={{ id }} class="optic_id">{{ name }}</h1>
+  <div style="display: flex">
+    <img style="max-width: 45vw; max-height: 40vh" src="{{ picture.url }}" alt="{{ object.name }}">
+    <span style="max-width: 45vw; margin-left: 2vw; font-size: 1.5rem">{{ description}}</span>
+  </div>
+  <p>Цена: {{ price }} ₽</p>
+    <div class="form-group" style="max-width: 20vw">
+      <label for="exampleInputEmail1">Телефон</label>
+      <input id="phone" type="phone" class="form-control" aria-describedby="emailHelp" placeholder="Введите телефон для связи">
+    </div>
+    <div class="form-group" style="max-width: 25vw">
+      <label for="exampleInputPassword1">Почтовый адрес</label>
+      <input id="email" type="email" class="form-control" placeholder="example@example.com">
+    </div>
+    <br>
+    <button onclick="sendOrder()" class="btn btn-primary">
+      Сделать заказ
+    </button>
+  </div>
+{% endblock %}

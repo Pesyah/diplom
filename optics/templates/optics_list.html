@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div style="display: grid; grid-template-columns: 22vw 22vw 22vw 22vw; padding: 2vw; margin: 5vw; margin-left: 6vw; border: solid grey; border-radius: 20px">
+    {% if optics_list %}
+      {% for optic in optics_list %}
+      <style>
+        .optic:hover {
+          transform: scale(1.10);
+          transition: all 0.1s ease-in-out;
+        }
+      </style>
+      <script>
+        function opticsGo(){
+          location.href = event.target.className.split(' ')[0].split('optic_')[1]
+        }
+      </script>
+        <div class="optic_{{optic.id}} optic" onclick="opticsGo()" style="margin-bottom: 4vw; border: solid grey 2px; margin-right: 5vw; padding-left: 1vw; padding-top: 1vw; border-radius: 5px">
+          <img class="optic_{{optic.id}}" src="{{ optic.picture.url }}" alt="{{ optic.name }}" style="width:15vw; height: 25vh;">
+          <br>
+          <a style="font-size: 1.5rem; word-wrap:break-word; text-decoration: none;" class="optic_{{optic.id}}">{% if optic.name|length > 30 %}{{ optic.name|slice:"30" }}...{% else %} {{optic.name}} {% endif %}</a>
+          <br>
+          <span style="font-size: 2rem; color: blue" class="optic_{{optic.id}}">{{ optic.price }} ₽</span>  
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>There are no products in the shop.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block content %}
+<div style="margin: 5vw; border-radius: 15px; background-color: #fffbed; padding: 2vw">
+  <h1>{{ object.name }}</h1>
+  <img src="{{ object.picture.url }}" alt="{{ object.name }}">
+  <p>{{ object.description }}</p>
+  <p>Стоимость услуги: {{ object.price }} ₽</p>
+  <button class="btn btn-primary" name={{object.id}} onclick="goToOrderService()">
+    Заказать
+  </button>
+</div>
+  <script>
+    function goToOrderService() {location.href = '/service/createOrder?serviceId=' + event.target.name}
+  </script>
+{% endblock %}

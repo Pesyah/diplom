@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block content %}
+<p style="font-size: 4rem; margin: 1vw 0 1vw 3vw">Статус заказа</p>
+<div style="margin: 3vw; border-radius: 15px; background-color: #fffbed; padding: 2vw">
+  <style>
+    .order_status li {
+      font-size: 1.5rem
+    }
+  </style>
+  <span style="font-size: 1.5rem">Запись на время: {{ object.time }} </span>
+  <p></p>
+  <ul class='order_status'>
+  {% if object.is_processed == False %}
+  <li> Заказ ещё в обработке!</li>
+  {% else %}
+  <li> Заказ уже обработан!</li>
+  {% if object.is_completed == False %}
+    <li> Товар ещё не передан.</li>
+    {% else %}
+    <li> Заказ получен!</li>
+    {% endif %}
+  {% endif %}
+  </ul>
+  <p style="font-size: 2rem; margin-left: 1vw;">Стоимость услуги: {{ object.current_price }} ₽</p>
+</div>
+{% endblock %}

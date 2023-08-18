@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block content %}
+<script>
+  function sendOrderService() {
+    var xhr = new XMLHttpRequest();
+    var body = 'phone=' + encodeURIComponent(document.getElementById('phone').value) + '&email=' + encodeURIComponent(document.getElementById('email').value) + '&service_id=' + encodeURIComponent(document.getElementsByClassName('service_id')['0'].id) + '&time=' + encodeURIComponent(document.getElementById('time').value)
+    xhr.open("POST", 'createOrder');
+
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+    
+    xhr.send(body);
+
+    xhr.onload = async function() {
+      if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
+        await alert(`Ошибка ${xhr.status}: ${xhr.statusText}`); // Например, 404: Not Found
+      } else {
+        await alert(xhr.response); // response -- это ответ сервера
+        location.href = '/services/' + document.getElementsByClassName('service_id')['0'].id
+      }
+    };
+    return true
+  }
+</script>
+<div style="margin: 5vw; border-radius: 15px; background-color: #fffbed; padding: 2vw">
+  <h1 id={{ id }} class="service_id">{{ name }}</h1>
+  <p>{{ description}}</p>
+  <p>Цена: {{ price }}</p>
+    <div class="form-group" style="max-width: 20vw">
+      <label for="exampleInputEmail1">Телефон</label>
+      <input id="phone" type="phone" class="form-control" aria-describedby="emailHelp" placeholder="Введите телефон для связи">
+    </div>
+    <div class="form-group" style="max-width: 25vw">
+      <label for="exampleInputPassword1">Почтовый адрес</label>
+      <input id="email" type="email" class="form-control" placeholder="example@example.com">
+    </div>
+    <br>
+    <input type="datetime-local" id="time" name="date"/>
+    <button onclick="sendOrderService()" class="btn btn-primary">
+      Сделать заказ
+    </button>
+  </div>
+{% endblock %}

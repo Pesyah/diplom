@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div style="display: grid; grid-template-columns: 95 vw; padding: 2vw; margin: 6vw;">
+    {% if services_list %}
+      {% for service in services_list %}
+      <style>
+        .service:hover {
+          transform: scale(1.10);
+          transition: all 0.1s ease-in-out;
+        }
+      </style>
+      <script>
+        function serviceGo(){
+          location.href = event.target.className.split(' ')[0].split('service_')[1]
+        }
+      </script>
+        <div class="service_{{service.id}} service" onclick="serviceGo()" style="margin-bottom: 4vw; border: solid gray 1px; padding: 1vw 2vw 2vw 2vw; border-radius: 5px">
+          <h2 class="service_{{service.id}}">{{ service.name }}</h3>
+          <span style="" class="service_{{service.id}} price"> Стоимость за услугу: {{ service.price }} ₽</span>
+          <p></p>
+          <span class="service_{{service.id}}" > {{ service.description|slice:"500" }}...</span>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>There are no services in the shop.</p>
+    {% endif %}
+{% endblock %}

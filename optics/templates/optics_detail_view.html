@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block content %}
+  <div style="margin: 5vw; border-radius: 15px; background-color: #fffbed; padding: 2vw">
+  <h1>{{ object.name }}</h1>
+
+  <div style="display: flex">
+    <img style="max-width: 45vw; max-height: 40vh" src="{{ object.picture.url }}" alt="{{ object.name }}">
+    <span style="max-width: 45vw; margin-left: 2vw; font-size: 1.5rem">{{ object.description}}</span>
+  </div>
+
+  <p>Цена: {{ object.price }} ₽</p>
+  <button name='{{object.id}}' class="btn btn-primary" onclick="goToOrder()">
+    Заказать
+  </button>
+</div>
+  <script>
+    function goToOrder() {location.href = '/optics/createOrder?opticId=' + event.target.name}
+  </script>
+{% endblock %}

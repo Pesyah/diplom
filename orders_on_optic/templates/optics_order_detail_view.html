@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block content %}
+  <p style="font-size: 4rem; margin: 1vw 0 1vw 3vw">Статус заказа</p>
+  <div style="margin: 3vw; border-radius: 15px; background-color: #fffbed; padding: 2vw">
+    <style>
+      .order_status li {
+        font-size: 1.5rem
+      }
+    </style>
+    <ul class='order_status'>
+    {% if object.is_processed == False %}
+    <li> Заказ ещё в обработке!</li>
+    {% else %}
+    <li> Заказ уже обработан!</li>
+    {% if object.is_completed == False %}
+      <li> Товар ещё не передан.</li>
+      {% else %}
+      <li> Заказ получен!</li>
+      {% endif %}
+    {% endif %}
+    </ul>
+    <div style="display: flex; align-items: center">
+      <img style="max-width: 45vw" src="{{ object.optic.picture.url }}">
+      <p style="font-size: 2rem; margin-left: 2vw;">Стоимость: {{ object.current_price }} ₽</p>
+    </div>
+</div>
+{% endblock %}
